@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DataSetOrnekModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Kullanici">
+          <Key>
+            <PropertyRef Name="Sıra" />
+          </Key>
+          <Property Name="Sıra" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ad" Type="char" MaxLength="10" />
+          <Property Name="Soyad" Type="char" MaxLength="10" />
+          <Property Name="IsYeri" Type="char" MaxLength="10" />
+          <Property Name="Maas" Type="money" />
+          <Property Name="SektorID" Type="int" />
+        </EntityType>
+        <EntityType Name="Sektor">
+          <Key>
+            <PropertyRef Name="SID" />
+          </Key>
+          <Property Name="SID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SAD" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <Association Name="FK_Kullanici_Sektor">
+          <End Role="Sektor" Type="Self.Sektor" Multiplicity="0..1" />
+          <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sektor">
+              <PropertyRef Name="SID" />
+            </Principal>
+            <Dependent Role="Kullanici">
+              <PropertyRef Name="SektorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DataSetOrnekModelStoreContainer">
+          <EntitySet Name="Kullanici" EntityType="Self.Kullanici" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sektor" EntityType="Self.Sektor" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Kullanici_Sektor" Association="Self.FK_Kullanici_Sektor">
+            <End Role="Sektor" EntitySet="Sektor" />
+            <End Role="Kullanici" EntitySet="Kullanici" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DataSetOrnekModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Kullanici">
+          <Key>
+            <PropertyRef Name="Sıra" />
+          </Key>
+          <Property Name="Sıra" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ad" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="Soyad" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="IsYeri" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="Maas" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="SektorID" Type="Int32" />
+          <NavigationProperty Name="Sektor" Relationship="Self.FK_Kullanici_Sektor" FromRole="Kullanici" ToRole="Sektor" />
+        </EntityType>
+        <EntityType Name="Sektor">
+          <Key>
+            <PropertyRef Name="SID" />
+          </Key>
+          <Property Name="SID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SAD" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Kullanici" Relationship="Self.FK_Kullanici_Sektor" FromRole="Sektor" ToRole="Kullanici" />
+        </EntityType>
+        <Association Name="FK_Kullanici_Sektor">
+          <End Role="Sektor" Type="Self.Sektor" Multiplicity="0..1" />
+          <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sektor">
+              <PropertyRef Name="SID" />
+            </Principal>
+            <Dependent Role="Kullanici">
+              <PropertyRef Name="SektorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DataSetOrnekEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Kullanici" EntityType="Self.Kullanici" />
+          <EntitySet Name="Sektor" EntityType="Self.Sektor" />
+          <AssociationSet Name="FK_Kullanici_Sektor" Association="Self.FK_Kullanici_Sektor">
+            <End Role="Sektor" EntitySet="Sektor" />
+            <End Role="Kullanici" EntitySet="Kullanici" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DataSetOrnekModelStoreContainer" CdmEntityContainer="DataSetOrnekEntities">
+          <EntitySetMapping Name="Kullanici">
+            <EntityTypeMapping TypeName="DataSetOrnekModel.Kullanici">
+              <MappingFragment StoreEntitySet="Kullanici">
+                <ScalarProperty Name="Sıra" ColumnName="Sıra" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="Soyad" ColumnName="Soyad" />
+                <ScalarProperty Name="IsYeri" ColumnName="IsYeri" />
+                <ScalarProperty Name="Maas" ColumnName="Maas" />
+                <ScalarProperty Name="SektorID" ColumnName="SektorID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sektor">
+            <EntityTypeMapping TypeName="DataSetOrnekModel.Sektor">
+              <MappingFragment StoreEntitySet="Sektor">
+                <ScalarProperty Name="SID" ColumnName="SID" />
+                <ScalarProperty Name="SAD" ColumnName="SAD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
